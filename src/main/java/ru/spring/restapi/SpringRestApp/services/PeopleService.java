@@ -3,10 +3,12 @@ package ru.spring.restapi.SpringRestApp.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.spring.restapi.SpringRestApp.models.People;
+import ru.spring.restapi.SpringRestApp.models.Person;
 import ru.spring.restapi.SpringRestApp.repositories.PeopleRepository;
+import ru.spring.restapi.SpringRestApp.util.PersonNotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -18,10 +20,11 @@ public class PeopleService {
         this.peopleRepository = peopleRepository;
     }
 
-    public List<People> findAll() {
+    public List<Person> findAll() {
         return peopleRepository.findAll();
     }
-    public People findOne(int id){
-        return peopleRepository.findById(id).orElse(null);
+    public Person findOne(int id){
+        Optional<Person> foundPerson = peopleRepository.findById(id);
+        return foundPerson.orElseThrow(PersonNotFoundException::new);
     }
 }

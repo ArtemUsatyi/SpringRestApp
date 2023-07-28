@@ -2,8 +2,8 @@ package ru.spring.restapi.SpringRestApp.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.spring.restapi.SpringRestApp.models.People;
+import ru.spring.restapi.SpringRestApp.models.Person;
 
 @Repository
-public interface PeopleRepository extends JpaRepository<People, Integer> {
+public interface PeopleRepository extends JpaRepository<Person, Integer> {
 }

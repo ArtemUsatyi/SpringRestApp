@@ -1,12 +1,14 @@
 package ru.spring.restapi.SpringRestApp.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.spring.restapi.SpringRestApp.models.People;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import ru.spring.restapi.SpringRestApp.models.Person;
 import ru.spring.restapi.SpringRestApp.services.PeopleService;
+import ru.spring.restapi.SpringRestApp.util.PersonNotFoundException;
+import ru.spring.restapi.SpringRestApp.util.PersonErrorResponse;
 
 import java.util.List;
 
@@ -22,12 +24,18 @@ public class PeopleController {
     }
 
     @GetMapping
-    public List<People> findAll() {
+    public List<Person> findAll() {
         return peopleService.findAll();
     }
 
     @GetMapping("{id}")
-    public People findOne(@PathVariable("id") int id) {
+    public Person findOne(@PathVariable("id") int id) {
         return peopleService.findOne(id);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<PersonErrorResponse> handleException(PersonNotFoundException e) {
+        PersonErrorResponse errorResponse = new PersonErrorResponse("Person not found!", System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND); // NOT_FOUND - ошибка, 404 статус
     }
 }
