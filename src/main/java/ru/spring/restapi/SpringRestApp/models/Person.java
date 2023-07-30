@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "People")
 public class Person {
@@ -25,6 +27,12 @@ public class Person {
     @Column(name = "age")
     @Min(value = 0, message = "Год должен быть больше 0")
     private int age;
+    @Column(name="created_who")
+    @NotEmpty
+    private String createWho;
+
+    @Column(name="updated_at")
+    private LocalDateTime updatedAt;
 
     public Person() {
 
@@ -67,5 +75,21 @@ public class Person {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getCreateWho() {
+        return createWho;
+    }
+
+    public void setCreateWho(String createWho) {
+        this.createWho = createWho;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
