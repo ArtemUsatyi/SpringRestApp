@@ -7,6 +7,7 @@ import ru.spring.restapi.SpringRestApp.models.Person;
 import ru.spring.restapi.SpringRestApp.repositories.PeopleRepository;
 import ru.spring.restapi.SpringRestApp.util.PersonNotFoundException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,11 @@ public class PeopleService {
     }
     @Transactional
     public void save(Person person){
+        enrichPerson(person);
         peopleRepository.save(person);
+    }
+    public void enrichPerson(Person person){
+        person.setUpdatedAt(LocalDateTime.now());
+        person.setCreateWho("ADMIN");
     }
 }
